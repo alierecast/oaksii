@@ -4,16 +4,16 @@ import sys
 
 # This line contains all of the values associated with grayscale tones in an array indexed at 0 (so 0 is |=a, 1 is |=b, etc)
 bwvals = ["|=a","|=b","|=c","|=d","|=e","|=f","|=g","|=h","|=i","|=j","|=k","|=l","|=m","|=n","|=o","|=p","|=q","|=r","|=s","|=t","|=u","|=v","|=w","|=x","|=y","|=z","|=z"]
-charwidth = 60
+charwidth = 46
 
 # This function opens the file resizes it according to a hard-coded value (currently 50) for width, and returns it as an array of arrays
 def getPixels(filename):
     img = Image.open(filename, 'r')
     benhancer = ImageEnhance.Brightness(img)
-    brighter = benhancer.enhance(1.2)
+    brighter = benhancer.enhance(1.5)
     w, h = img.size
-    ratio = float(w)/h
-    resized = brighter.resize((charwidth,int(round(charwidth/2*ratio))),Image.BILINEAR)
+    scaling = charwidth/float(w)
+    resized = brighter.resize((charwidth,int(round(scaling*h*6/11))),Image.NEAREST)
     w, h = resized.size
     pix = list(resized.getdata())
     return [pix[n:n+w] for n in range(0, w*h, w)]
